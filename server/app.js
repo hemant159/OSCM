@@ -3,6 +3,8 @@ import userRoute from './routes/user.js'
 import { connectDB } from "./utils/features.js";
 import dotenv from 'dotenv'
 import { errorMiddleware } from "./middlewares/error.js";
+import cookieParser from "cookie-parser";
+
 
 dotenv.config({
     path: "./.env"
@@ -12,6 +14,7 @@ connectDB(process.env.MONGO_URI);
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.get("/", (req, res) => {
     res.send("Hello, world from home")

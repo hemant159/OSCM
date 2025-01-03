@@ -19,7 +19,7 @@ const connectDB = (uri) => {
 
 const sendToken = (res, user, code, message) => {
 
-    const token = jwt.sign({_id: user._id}, "process.JWT_SECRET");
+    const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET);
 
     return res.status(code).cookie("test-token", token, cookieOption).json({
         sucess: true,
