@@ -1,4 +1,8 @@
+import { compare } from "bcrypt";
 import { User } from "../models/user.js";
+import { sendToken } from "../utils/features.js";
+import { TryCatch } from "../middlewares/error.js";
+
 
 //create a new user and same it ti the data base and save the cookie
 const newUser = async(req, res) => {
@@ -10,19 +14,37 @@ const newUser = async(req, res) => {
         url: "asdasdasdasdasdasd",
     };
 
-    await User.create({
+    const user = await User.create({
         name,
         username,
         password,
         avatar, 
     });
     
-    res.status(201).json({ message: "user created sucessfully "});
+    sendToken(res, user, 201, "user created sucessfully")
 };
 
-const login = (req, res) => {
-    res.send("Hello, world");
-};
+const login = TryCatch(async (req, res, next) => {
 
+    const { username, password } = req.body;
+        
+    const user = await User.findOne({ username }).select("+password");
 
-export { login, newUser }
+    if(!user) {
+        return next(new Error("Invalid Username"));
+    }
+
+    const isMatch = await compare(password, user.password);
+
+    if(!isMatch) {
+        return next(new Error("Invalid Password"));
+    }
+
+    sendToken(res, user, 200, `Welcome Back, ${user.name}`);
+}); 
+
+const getMyProfile = (req, res) => {
+
+}
+
+export { login, newUser, getMyProfile }

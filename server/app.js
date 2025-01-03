@@ -2,6 +2,7 @@ import express from "express";
 import userRoute from './routes/user.js'
 import { connectDB } from "./utils/features.js";
 import dotenv from 'dotenv'
+import { errorMiddleware } from "./middlewares/error.js";
 
 dotenv.config({
     path: "./.env"
@@ -15,7 +16,9 @@ app.use(express.json());
 app.get("/", (req, res) => {
     res.send("Hello, world from home")
 })
+
 app.use("/user", userRoute);
+app.use(errorMiddleware); 
 
 
 app.listen(process.env.PORT, () => {
