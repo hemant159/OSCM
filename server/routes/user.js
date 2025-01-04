@@ -9,7 +9,7 @@ app.post('/new', singleAvatar, newUser);
 app.post('/login', login);
 
 app.use( isAuthenticated)
-app.get("/me", getMyProfile)
+app.get("/profile", getMyProfile)
 app.get("/logout", logout);
 
 export default app;
