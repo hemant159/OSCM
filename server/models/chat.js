@@ -15,8 +15,8 @@ const schema = new Schema({
         },
         members: [
                 {
-                types: Types.ObjectId,
-                ref: "User"
+                type: Types.ObjectId,
+                 ref: "User"
             }
         ]
     },
