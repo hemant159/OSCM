@@ -17,8 +17,6 @@ const connectDB = (uri) => {
     });
 }
 
-console.log("feature.js")
-
 const sendToken = (res, user, code, message) => {
 
     const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET);
@@ -33,4 +31,8 @@ const emitEvent = (req, event, users, data) => {
     console.log("Emiting Event", event);
 }
 
-export { connectDB, sendToken, cookieOption, emitEvent }
+const deleteFilesFromCloudinary = async (public_ids) => {
+
+};
+
+export { connectDB, sendToken, cookieOption, emitEvent, deleteFilesFromCloudinary }
