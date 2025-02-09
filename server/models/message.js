@@ -2,7 +2,7 @@ import mongoose, { Schema, Types, model } from "mongoose";
 
 const schema = new Schema(
     {
-        content: SVGStringList,
+        content: String,
         attachments: [
             {
                 public_id: {
