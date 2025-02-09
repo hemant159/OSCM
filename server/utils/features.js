@@ -17,6 +17,8 @@ const connectDB = (uri) => {
     });
 }
 
+console.log("feature.js")
+
 const sendToken = (res, user, code, message) => {
 
     const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET);

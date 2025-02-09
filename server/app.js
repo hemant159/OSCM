@@ -5,8 +5,6 @@ import { connectDB } from "./utils/features.js";
 import dotenv from 'dotenv'
 import { errorMiddleware } from "./middlewares/error.js";
 import cookieParser from "cookie-parser";
-import { createUser } from "./seeders/user.js";
-
 
 dotenv.config({
     path: "./.env"
@@ -28,7 +26,7 @@ app.use("/user", userRoute);
 app.use("/chat", chatRoute);
 app.use(errorMiddleware); 
 
-
-app.listen(process.env.PORT, () => {
-    console.log(`server is running on port ${process.env.PORT}`);
+console.log(process.env.PORT)
+app.listen(process.env.PORT || 3000, () => {
+    console.log(`server is running on port ${process.env.PORT || 3000}`);
 });
