@@ -219,7 +219,6 @@ const leaveGroup = TryCatch(async (req, res, next) => {
     if(chat.creator.toString() === req.user.toString()) {
         const randomElement = Math.floor(Math.random() * remainingMembers.length);
 
-        const test = ["hemant", "hemant"]
         const newCreator = remainingMembers[randomElement]
 
         chat.creator = newCreator
