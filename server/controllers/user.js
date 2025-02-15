@@ -3,6 +3,7 @@ import { User } from "../models/user.js";
 import { cookieOption, sendToken } from "../utils/features.js";
 import { TryCatch } from "../middlewares/error.js";
 import { ErrorHandler } from "../utils/utility.js";
+import { Chat } from "../models/chat.js"
 
 
 //create a new user and same it ti the data base and save the cookie
@@ -65,12 +66,31 @@ const logout = TryCatch(async (req, res) => {
 });
 
 const searchUser = TryCatch(async (req, res) => {
-    const { name } = req.query;
+    const { name = "" } = req.query;
+
+    const myChats = await Chat.find({ groupChat: false, members: req.user });
+
+    // all users from my chat i'e friends 
+    const allUsersFromMyChats = myChats.map((chat) => chat.members).flat();
+
+    // all users who are not my friends
+    const allUsersExceptMeAndFriends = await User.find({
+        _id: { $nin: allUsersFromMyChats },
+        name: { $regex: name, $options: "i"}
+    })
+
+    const users = allUsersExceptMeAndFriends.map((_id, name, avatar)=>({
+        _id,
+        name,
+        avatar: avatar.url
+    }))
+
     return res
     .status(200)
     .json({
         success: true,
-        message: name,
+        users
+
     });
 });
 

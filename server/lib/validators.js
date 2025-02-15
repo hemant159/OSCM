@@ -1,4 +1,4 @@
-import { body, validationResult, check } from "express-validator";
+import { body, validationResult, check, param, query } from "express-validator";
 import { ErrorHandler } from "../utils/utility.js";
 
 const validateHandler = (req, res, next) => {
@@ -33,6 +33,47 @@ const newGroupValidator = () => [
         .withMessage("Please Enter Members")
         .isArray({ min: 2, max: 100 })
         .withMessage("members must be in between 2 - 100"),
-]; 
+];
 
-export { registerValidator, validateHandler, loginValidator, newGroupValidator }
+const addMemberValidator = () => [
+    body("chatId", "Please Enter Chat ID").notEmpty(),
+    body("members")
+        .notEmpty()
+        .withMessage("Please Enter Members")
+        .isArray({ min: 1, max: 97 })
+        .withMessage("members must be in between 2 - 97"),
+];
+
+const removeMemberValidator = () => [
+    body("chatId", "Please Enter Chat ID").notEmpty(),
+    body("userId", "Please Enter User ID").notEmpty()
+];
+
+const sendAttachmentsValidator = () => [
+    body("chatId", "Please Enter Chat ID").notEmpty(),
+    check("files")
+        .notEmpty()
+        .isArray({ min: 2, max: 5 })
+        .withMessage("Attachements must be 1-5")
+];
+
+const chatIdValidator = () => [
+    param("id", "Please Enter Chat ID").notEmpty()
+];
+
+const renameValidator = () => [
+    param("id", "Please Enter Chat ID").notEmpty(),
+    body("name", "Please Enter name").notEmpty()  
+];
+
+export { 
+    registerValidator, 
+    validateHandler, 
+    loginValidator, 
+    newGroupValidator, 
+    addMemberValidator,
+    removeMemberValidator,
+    sendAttachmentsValidator,
+    chatIdValidator,
+    renameValidator
+}
