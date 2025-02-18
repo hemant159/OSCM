@@ -6,12 +6,19 @@ import { ErrorHandler } from "../utils/utility.js";
 import { Chat } from "../models/chat.js"
 import { Request } from "../models/request.js";
 import { NEW_REQUEST, REFETCH_CHATS } from "../constants/events.js";
+import { getOtherMember } from "../lib/helper.js";
 
 
 //create a new user and same it ti the data base and save the cookie
-const newUser = async(req, res, next) => {
+const newUser = TryCatch(async(req, res, next) => {
 
     const {name, username, password} = req.body;
+
+    const file = req.file;
+
+    if(!file) {
+        return next(new ErrorHandler("PLease Uplaod Avatar"))
+    }
 
     const avatar = {
         public_id: "qwertyuiop",
@@ -26,7 +33,7 @@ const newUser = async(req, res, next) => {
     });
     
     sendToken(res, user, 201, "user created sucessfully")
-};
+});
 
 const login = TryCatch(async (req, res, next) => {
 
@@ -196,6 +203,46 @@ const getMyNotifications = TryCatch(async (req, res, next) => {
     })
 });
 
+const getMyFriends = TryCatch(async (req, res, next) => {
+
+    const chatId = req.query.chatId;
+
+    const chats = await Chat.find({ 
+        members: req.user,
+        groupChat: false
+    }).populate("members", "name avatar");
+
+    const friends = chats.map(({members}) => {
+        const otherUser = getOtherMember(members, req.user)
+
+        return {
+            _id: otherUser._id,
+            name: otherUser.name,
+            avatar: otherUser.avatar.url
+        }
+    });
+
+    if (chatId) {
+        const  chat = await friends.filter(chatId);
+
+        const availableFriends = friends.fileter(
+            (friends) => !chat.members.includes(friends._id)
+        );
+
+        return res.status(200).json({
+            sucess: true,
+            friends: availableFriends
+        });
+
+    } else {
+        return res.status(200).json({
+            success: true,
+            friends,
+        })
+    }
+});
+
+
 export { 
     login, 
     newUser, 
@@ -204,5 +251,6 @@ export {
     searchUser, 
     sendFriendRequest,
     acceptFriendRequest,
-    getMyNotifications
+    getMyNotifications,
+    getMyFriends
 }
