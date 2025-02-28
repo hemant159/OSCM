@@ -2,9 +2,21 @@ import React from 'react'
 import Title from '../shared/Title';
 import { Grid, IconButton, Tooltip } from '@mui/material';
 import Header from './Header';
+import ChatList from '../specific/ChatList';
+import { sampleChats } from '../../constants/sampleData';
+import { useParams } from 'react-router-dom';
 
 const AppLayout = () => (WrappedComponent) => {
   return (props) => {
+
+    const params = useParams();
+    const chatId = params.chatid;
+
+    const handleDeleteChat = (e, _id, groupChat) => {
+        e.preventDefault();
+        console.log("Delete Chat", _id, groupChat)
+    }
+
     return (
         <>
             <Title />
@@ -19,7 +31,11 @@ const AppLayout = () => (WrappedComponent) => {
                     }} 
                     height={"100%"}
                 >
-                    First
+                    <ChatList 
+                        chats={sampleChats} 
+                        chatId={chatId}
+                        handleDeleteChat={handleDeleteChat}
+                    />
                 </Grid>
                 <Grid 
                     item 
