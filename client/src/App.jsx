@@ -19,7 +19,7 @@ const App = () => {
         <Suspense fallback={<LayoutLoaders />}>
           <Routes>
             <Route element={<ProtectRoute user={user} />}>
-              <Route path='/home' element={<Home />}/>
+              <Route path='/' element={<Home />}/>
               <Route path='/chat/:chatid' element={<Chat />}/>
               <Route path='/groups' element={<Groups />}/>
             </Route>
