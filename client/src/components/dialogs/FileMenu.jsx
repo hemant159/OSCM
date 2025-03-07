@@ -3,7 +3,7 @@ import React from 'react'
 
 const FileMenu = ({ anchorE1 }) => {
   return (
-    <Menu open anchorE1={anchorE1}>
+    <Menu open = {false} anchorE1={anchorE1}>
         <div 
             style={{
                 width: "10rem"

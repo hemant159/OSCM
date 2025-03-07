@@ -1,3 +1,5 @@
+import { Attachment } from "@mui/icons-material"
+
 export const sampleChats = [{
         avatar: ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQN5L-I9zx7e7olL6l2KabBhBPZQSTH92J4oA&s"],
         name: "Hemant",
@@ -43,3 +45,33 @@ export const sampleNotification = [
         _id: "2"
     },
 ]
+
+export const sampleMessage = [
+    {
+        attachments: [
+            {
+                public_id: "asdasd",
+                url: "https://www.w3schools.com/howto/img_avatar.png",
+            },
+        ],
+        content: "",
+        _id: "nvdjkanvvcjksn",
+        sender: {
+            _id: "asasdsdsds",
+            name: "hemant",
+        },
+        chat: "chatId",
+        createdAt: ""
+    },
+    {
+        attachments: [ ],
+        content: "hiiii",
+        _id: "nvdjkann",
+        sender: {
+            _id: "users._id",
+            name: "hemant",
+        },
+        chat: "chatId",
+        createdAt: ""
+    }
+];
