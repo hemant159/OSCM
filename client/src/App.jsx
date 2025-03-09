@@ -4,6 +4,7 @@ import Group from './pages/Group';
 import ProtectRoute from './components/auth/ProtectRoute';
 import NotFound from './pages/NotFound';
 import LayoutLoaders from './components/layout/Loaders';
+import AdminLogin from './pages/admin/AdminLogin';
 
 const Home = lazy(() => import("./pages/Home"))
 const Login = lazy(() => import("./pages/Login"))
@@ -28,6 +29,7 @@ const App = () => {
                 <Login />
               </ProtectRoute>
             }/>
+            <Route path='/admin' element={<AdminLogin />} />
             <Route path='*' element={<NotFound />}/>
           </Routes>
         </Suspense>
