@@ -4,12 +4,14 @@ import Group from './pages/Group';
 import ProtectRoute from './components/auth/ProtectRoute';
 import NotFound from './pages/NotFound';
 import LayoutLoaders from './components/layout/Loaders';
-import AdminLogin from './pages/admin/AdminLogin';
 
 const Home = lazy(() => import("./pages/Home"))
 const Login = lazy(() => import("./pages/Login"))
 const Chat = lazy(() => import("./pages/Chat"))
 const Groups = lazy(() => import("./pages/Group"))
+
+const AdminLogin = lazy(() => import("./pages/admin/AdminLogin"))
+const DashBoard = lazy(() => import("./pages/admin/DashBoard"))
 
 let user = true;
 
@@ -30,6 +32,7 @@ const App = () => {
               </ProtectRoute>
             }/>
             <Route path='/admin' element={<AdminLogin />} />
+            <Route path='/admin/dashboard' element={<DashBoard />} />
             <Route path='*' element={<NotFound />}/>
           </Routes>
         </Suspense>

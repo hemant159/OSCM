@@ -232,7 +232,7 @@ const Login = () => {
                     }
                 </Paper>
             </Container>
-        </div>
+    </div>
     )
 }
 
