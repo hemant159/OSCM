@@ -4,6 +4,11 @@ import { CameraAlt as CameraAltIcon, Password } from "@mui/icons-material";
 import { VisuallyHiddenInput } from '../components/styles/StyledComponents';
 import { useFileHandler, useInputValidation } from "6pp";
 import { usernameValidator } from '../utils/Validators';
+import { useDispatch } from "react-redux";
+import { userExists } from '../redux/reducers/auth';
+import toast from 'react-hot-toast';
+import axios from "axios";
+import { server } from '../constants/config';
 
 const Login = () => {
 
@@ -14,12 +19,34 @@ const Login = () => {
     const name = useInputValidation("");
     const username = useInputValidation("", usernameValidator);
     const password = useInputValidation("");
-
+ 
     const avatar = useFileHandler("single");
+    const dispatch = useDispatch()
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-    }
+
+        const config = {
+            withCredentials: true, 
+            headers: {
+                'Content-Type': 'application/'
+            }
+        };
+
+        try {
+                const { data } = await axios.post(`${server}/api/v1/user/login`, {
+                username: username.value,
+                password: password.value
+            }, 
+            config
+        );
+            dispatch(userExists(true));
+            toast.success(data.message);
+        } catch (error) {
+            console.log(error)
+            toast.error(error?.response?.data?.message || "Something went Wrong");
+        }
+};
     
     const handleSignUp = (e) => {
         e.preventDefault();

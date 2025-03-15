@@ -12,6 +12,7 @@ import { NEW_MESSAGE, NEW_MESSAGE_ALERT } from "./constants/events.js";
 import { v4 as uuid } from "uuid";
 import { getSockets } from "./lib/helper.js";
 import { Message } from "./models/message.js";
+import cors from "cors";
 
 dotenv.config({
     path: "./.env"
@@ -35,14 +36,18 @@ const io = new Server(server, {})
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors({
+    origin: ["http://localhost:5173", "http://localhost:4173", "http://localhost:5174", process.env.CLIENT_URL],
+    credential: true,
+}))
 
 app.get("/", (req, res) => {
     res.send("Hello, world from home")
 })
 
-app.use("/user", userRoute);
-app.use("/chat", chatRoute);
-app.use("/admin", adminRoute);
+app.use("/api/v1/user", userRoute);
+app.use("/api/v1/chat", chatRoute);
+app.use("/api/v1/admin", adminRoute);
 
 io.on("connection", (socket) => {
 
