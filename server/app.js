@@ -13,6 +13,7 @@ import { v4 as uuid } from "uuid";
 import { getSockets } from "./lib/helper.js";
 import { Message } from "./models/message.js";
 import cors from "cors";
+import {v2 as cloudinary} from "cloudinary";
 
 dotenv.config({
     path: "./.env"
@@ -23,6 +24,12 @@ const envMode = process.env.NODE_ENV.trim() || "PRODUCTION";
 const adminSecretKey = process.env.ADMIN_SECRET_KEY || "ITSA";
 
 const userSocketIDs = new Map();
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
 // createSingleChats(10);
 // createGroupChats(10);
@@ -38,7 +45,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
     origin: ["http://localhost:5173", "http://localhost:4173", "http://localhost:5174", process.env.CLIENT_URL],
-    credential: true,
+    credentials: true,
 }))
 
 app.get("/", (req, res) => {

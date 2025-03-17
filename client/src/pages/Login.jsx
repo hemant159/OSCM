@@ -29,7 +29,7 @@ const Login = () => {
         const config = {
             withCredentials: true, 
             headers: {
-                'Content-Type': 'application/'
+                'Content-Type': 'application/json'
             }
         };
 
@@ -48,8 +48,39 @@ const Login = () => {
         }
 };
     
-    const handleSignUp = (e) => {
+    const handleSignUp = async (e) => {
         e.preventDefault();
+
+        const formData = new FormData();
+        formData.append("avatar", avatar.file);
+        formData.append("name", name.value);
+        formData.append("username", username.value);
+        formData.append("password", password.value);
+
+        const config = {
+            withCredentials: true,
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+        }
+
+        try {
+            const { data } = await axios.post(
+                `${server}/api/v1/user/new`,
+                formData, 
+                config
+            );
+
+            dispatch(userExists(true));
+            toast.success(data.message);
+
+        } catch (error) {
+            const errMsg = error?.response?.data?.message;
+    // If errMsg is an object, convert it to a string
+    const errorMessage =
+        typeof errMsg === 'string' ? errMsg : JSON.stringify(errMsg);
+    toast.error(errorMessage || "Something went wrong");
+        }
     }
 
   return(

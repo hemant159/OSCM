@@ -11,11 +11,11 @@ app.post('/login',loginValidator(), validateHandler, login);
 
 app.use( isAuthenticated)
 app.get("/profile", getMyProfile)
-app.get("/logout", logout);
 app.get("/search", searchUser);
 app.put("/send-request", sendRequestValidator(), validateHandler, sendFriendRequest);
 app.put("/accept-request", acceptRequestValidator(), validateHandler, acceptFriendRequest);
 app.get("/notifications", getMyNotifications);
 app.get("/friends", getMyFriends);
+app.get("/logout", logout);
 
 export default app;
