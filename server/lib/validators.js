@@ -71,7 +71,7 @@ const sendRequestValidator = () => [
 ];
 
 const acceptRequestValidator = () => [  
-    body("requesrId", "Please Enter Request ID").notEmpty(),
+    body("requestId", "Please Enter Request ID").notEmpty(),
     body("accept")
         .notEmpty()
         .withMessage("Please Add Accept")

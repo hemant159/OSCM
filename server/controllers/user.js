@@ -141,6 +141,9 @@ const sendFriendRequest = TryCatch(async (req, res, next) => {
 
 const acceptFriendRequest = TryCatch(async (req, res, next) => {
     const { requestId, accept } = req.body;
+    console.log("hi there from req.body", req.body);
+
+    console.log("hi there from request", requestId);
 
     const request = await Request.findById(requestId)
         .populate("sender", "name")

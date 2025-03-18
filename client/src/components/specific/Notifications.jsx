@@ -25,6 +25,7 @@ const Notifications = () => {
       try {
 
         const res = await acceptRequest({requestId: _id, accept});
+        console.log("hi there from res", res);
       
         if (res.data?.success) {
           console.log("use socket");
