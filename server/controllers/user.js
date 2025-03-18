@@ -132,7 +132,7 @@ const sendFriendRequest = TryCatch(async (req, res, next) => {
 
     return res
     .status(200)
-    .cookie("test-token", "", {...cookieOption, maxAge: 0})
+    // .cookie("test-token", "", {...cookieOption, maxAge: 0})
     .json({
         success: true,
         message: "Frined Request Sent",

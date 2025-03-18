@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Title from '../shared/Title';
 import { Drawer, Grid, IconButton, Skeleton, Tooltip } from '@mui/material';
 import Header from './Header';
@@ -9,6 +9,7 @@ import Profile from '../specific/Profile';
 import { useMyChatsQuery  } from '../../redux/api/api.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsMobile } from '../../redux/reducers/misc.js';
+import { useErrors } from '../../hooks/hook.jsx';
 
 const AppLayout = () => (WrappedComponent) => {
   return (props) => {
@@ -18,10 +19,13 @@ const AppLayout = () => (WrappedComponent) => {
     const chatId = params.chatid;
 
     const { isMobile } = useSelector((state) => state.misc);
+    const { user } = useSelector((state) => state.auth);
 
 
     const { isLoading, data, isError, error, refetch} = useMyChatsQuery ("");
-    console.log(data);
+
+    useErrors([{ isError, error }])
+ 
 
     const handleDeleteChat = (e, _id, groupChat) => {
         e.preventDefault();
@@ -87,7 +91,7 @@ const AppLayout = () => (WrappedComponent) => {
                         bgcolor: "rgba(0,0,0,0.7)"
                     }}
                 >
-                    <Profile />
+                    <Profile user={user} />
                 </Grid>
             </Grid>
         </>
